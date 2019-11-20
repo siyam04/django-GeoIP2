@@ -7,13 +7,17 @@
 </head>
 
 <body>
-    <h1>Database Saved IP</h1>
-    <h2 style="color: red">{{ db_saved_ip }}</h2>
+{#    <h1>Database Saved IP</h1>#}
+{#    <h2 style="color: red">{{ db_saved_ip }}</h2>#}
 
-    <hr>
+{#    <hr>#}
 
     <h1>Session Saved IP</h1>
-    <h2 style="color: green">{{ request.session.session_saved_ip }}</h2>
+{#    <h2 style="color: green">{{ request.session.session_saved_ip }}</h2>#}
+    <h2 style="color: green">{{ request.session.IP }}</h2>
+    <h2 style="color: green">{{ request.session.CITY }}</h2>
+    <h2 style="color: green">{{ request.session.COUNTRY }}</h2>
+{#    <h2 style="color: red">{{ country_data }}</h2>#}
 
 </body>
 </html>

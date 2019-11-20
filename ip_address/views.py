@@ -1,3 +1,9 @@
+import re
+import json
+# from urllib2 import urlopen
+from pprint import pprint
+from urllib.request import urlopen
+
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.gis.geoip2 import GeoIP2
@@ -40,15 +46,43 @@ def getting_ip(request):
 
 # Saving request user's IP into ...
 def user_ip(request):
-    ip = getting_ip(request)
+    # ip = getting_ip(request)
+    ip = '209.97.160.173'
 
-    session_saved_ip = request.session['session_saved_ip'] = ip
+    # session_saved_ip = request.session['session_saved_ip'] = ip
 
-    db_saved_ip = IPAddress.objects.create(ip_address=session_saved_ip)
+    # Getting Data
+    url = 'http://ipinfo.io/'+ip+'/geo/'
+    response = urlopen(url)
+    data = json.load(response)
 
-    context = {'db_saved_ip': db_saved_ip}
+    pprint(data)
+
+    IP = data['ip']
+    # org = data['org']
+    city = data['city']
+    country = data['country']
+    # region = data['region']
+
+    # Saving to the Session
+    request.session['IP'] = IP
+    # request.session['ORG'] = org
+    request.session['CITY'] = city
+    request.session['COUNTRY'] = country
+    # request.session['REGION'] = region
+
+    # g_country = GeoIP2('/home/siyam/Desktop/visitor_ip_address/ip_address/geoip/GeoLite2-Country.mmdb')
+    # country_data = g_country.country(session_saved_ip)
+
+    # db_saved_ip = IPAddress.objects.create(ip_address=session_saved_ip)
+
+    # context = {'db_saved_ip': db_saved_ip}
+    # context = {'country_data': country_data}
 
     template = 'ip_address/user_ip.html'
 
-    return render(request, template, context)
+    # return render(request, template, context)
+    return render(request, template)
+
+
 
