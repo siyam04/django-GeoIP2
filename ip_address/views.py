@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-
 from django.contrib.gis.geoip2 import GeoIP2
+
+from .models import IPAddress
 
 
 # Django Country Data
@@ -25,3 +26,27 @@ def geoip2_data(request):
     template = 'ip_address/geoip2_data.html'
 
     return render(request, template, context)
+
+
+# Getting request user's IP
+def getting_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+# Saving request user's IP into cookies
+def user_ip(request):
+    ip = getting_ip(request)
+
+    saved_ip = IPAddress.objects.create(ip_address=ip)
+
+    context = {'saved_ip': saved_ip}
+
+    template = 'ip_address/user_ip.html'
+
+    return render(request, template, context)
+
