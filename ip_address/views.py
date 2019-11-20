@@ -38,13 +38,15 @@ def getting_ip(request):
     return ip
 
 
-# Saving request user's IP into cookies
+# Saving request user's IP into ...
 def user_ip(request):
     ip = getting_ip(request)
 
-    saved_ip = IPAddress.objects.create(ip_address=ip)
+    session_saved_ip = request.session['session_saved_ip'] = ip
 
-    context = {'saved_ip': saved_ip}
+    db_saved_ip = IPAddress.objects.create(ip_address=session_saved_ip)
+
+    context = {'db_saved_ip': db_saved_ip}
 
     template = 'ip_address/user_ip.html'
 

@@ -7,8 +7,13 @@
 </head>
 
 <body>
-    <h1>Request User IP</h1>
+    <h1>Database Saved IP</h1>
+    <h2 style="color: red">{{ db_saved_ip }}</h2>
+
     <hr>
-    <h2 style="color: red">{{ saved_ip }}</h2>
+
+    <h1>Session Saved IP</h1>
+    <h2 style="color: green">{{ request.session.session_saved_ip }}</h2>
+
 </body>
 </html>
